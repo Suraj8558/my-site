@@ -7,8 +7,8 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 const Hero = ({ slice }: HeroProps): JSX.Element => {
   return (
     <section
-      // data-slice-type={slice.slice_type}
-      // data-slice-variation={slice.variation}
+      data-slice-type={slice.slice_type}
+      data-slice-variation={slice.variation}
       className="es-bounded es-fullpage-hero"
     >
       <div
@@ -22,15 +22,14 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
         `}
       >
         <div>
-          {/* {isFilled.image(slice.primary.image) && (
+          {isFilled.image(slice.primary.image) && (
             <PrismicNextImage
               field={slice.primary.image}
               className="es-fullpage-hero__image"
             />
-          )} */}
+          )}
         </div>
-          <h1> data </h1>
-        {/* <div className="es-fullpage-hero__content-right">
+        <div className="es-fullpage-hero__content-right">
           <div className="es-fullpage-hero__content__intro">
             {isFilled.keyText(slice.primary.eyebrowHeadline) && (
               <p className="es-fullpage-hero__content__intro__eyebrow">
@@ -56,7 +55,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
               </PrismicNextLink>
             )}
           </div>
-        </div> */}
+        </div>
       </div>
       {/* <style>
         {`

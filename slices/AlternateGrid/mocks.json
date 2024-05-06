@@ -37,8 +37,8 @@
 			},
 			"eyebrowHeadline": {
 				"__TYPE__": "FieldContent",
-				"type": "Text",
-				"value": "Eyebrow"
+				"value": "motor",
+				"type": "Text"
 			},
 			"image": {
 				"origin": {

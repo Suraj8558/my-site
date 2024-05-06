@@ -130,7 +130,73 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-export type AllDocumentTypes = HomeDocument | PageDocument;
+/**
+ * Content for Settings documents
+ */
+interface SettingsDocumentData {
+  /**
+   * Old Link field in *Settings*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.oldlink
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  oldlink: prismic.LinkField;
+
+  /**
+   * New Link field in *Settings*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.newlink
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  newlink: prismic.LinkField;
+
+  /**
+   * Status Code field in *Settings*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.statusCode
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  statusCode: prismic.NumberField;
+
+  /**
+   * Status codes field in *Settings*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: 301
+   * - **API ID Path**: settings.status_code
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  status_code: prismic.SelectField<"301" | "302", "filled">;
+}
+
+/**
+ * Settings document from Prismic
+ *
+ * - **API ID**: `settings`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SettingsDocumentData>,
+    "settings",
+    Lang
+  >;
+
+export type AllDocumentTypes = HomeDocument | PageDocument | SettingsDocument;
 
 /**
  * Primary content in *AlternateGrid → Primary*
@@ -140,7 +206,7 @@ export interface AlternateGridSliceDefaultPrimary {
    * eyebrowHeadline field in *AlternateGrid → Primary*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: Eyebrow
+   * - **Placeholder**: Eyebrows
    * - **API ID Path**: alternate_grid.primary.eyebrowHeadline
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
@@ -748,6 +814,8 @@ declare module "@prismicio/client" {
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
+      SettingsDocument,
+      SettingsDocumentData,
       AllDocumentTypes,
       AlternateGridSlice,
       AlternateGridSliceDefaultPrimary,

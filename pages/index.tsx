@@ -8,14 +8,13 @@ import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
 import { createClient } from "@/prismicio";
 import  Layout from '../components/layouts/Layout';
-import { getLocales } from "./lib/getLocales"
 import Banner from '../components/HeroSection/Banner'
 import { AppProps } from 'next/dist/shared/lib/router/router';
 
 
 export default function Page({
   page,
-  locales
+  // locales
 }: AppProps) {
  
   return (
@@ -45,11 +44,11 @@ export async function getStaticProps({ previewData, locale }: GetStaticPropsCont
   const client = createClient({ previewData });
   
   // The query fetches the page's data based on the current URL.
-  const page = await client.getSingle("home", { lang: locale });  
-  const locales = await getLocales(page, client)
+  const page = await client.getSingle("home");  
+  // const locales = await getLocales(page, client)
 
   return {  
-    props: { page , locales},
+    props: { page},
     revalidate: 60,
   };
 }

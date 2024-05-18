@@ -13,7 +13,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
     >
       <div
         className={`
-            es-fullpage-hero__content
+            es-fullpage-hero__content container 
             ${
               slice.variation === "imageRight"
                 ? "es-fullpage-hero__image--right"

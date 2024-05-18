@@ -7,20 +7,24 @@ import { SliceZone } from "@prismicio/react";
 
 import { components } from "@/slices";
 import { createClient } from "@/prismicio";
-import { getLocales } from "./lib/getLocales"
+import  Layout from '../components/layouts/Layout';
+import Banner from '../components/HeroSection/Banner'
+import { AppProps } from 'next/dist/shared/lib/router/router';
+
 
 export default function Page({
   page,
-  locales
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+  // locales
+}: AppProps) {
+ 
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>{page.data.meta_title}</title>
         {isFilled.keyText(page.data.meta_description) ? (
           <meta name="description" content={page.data.meta_description} />
         ) : null}
-      </Head>
+      </Head> */}
       {/* <ul>
         {locales.map((locale) => (
           <li key={locale.id}>
@@ -28,22 +32,23 @@ export default function Page({
           </li>
         ))}
       </ul> */}
-      <SliceZone slices={page.data.slices} components={components} />
+      <Layout showFooter={true}> 
+        <Banner />
+        <SliceZone slices={page.data.slices} components={components} />
+      </Layout>
     </>
   );
 }
 
 export async function getStaticProps({ previewData, locale }: GetStaticPropsContext) {
-  // The `previewData` parameter allows your app to preview
-  // drafts from the Page Builder.
   const client = createClient({ previewData });
   
   // The query fetches the page's data based on the current URL.
-  const page = await client.getSingle("home", { lang: locale });  
-  const locales = await getLocales(page, client)
+  const page = await client.getSingle("home");  
+  // const locales = await getLocales(page, client)
 
   return {  
-    props: { page , locales},
+    props: { page},
     revalidate: 60,
   };
 }

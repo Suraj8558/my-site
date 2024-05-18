@@ -6,13 +6,11 @@ import { PrismicNextLink } from '@prismicio/next'
 
 import { components } from "@/slices";
 import { createClient } from "@/prismicio";
-import { getLocales } from "./lib/getLocales"
-
 type Params = { uid: string };
 
 export default function Page({
   page,
-  locales 
+  // locales 
 }: InferGetStaticPropsType<typeof getStaticProps>) {
 
   return (
@@ -37,17 +35,17 @@ export default function Page({
 
 export async function getStaticProps({
   params,
-  locale,
+  // locale,
   previewData,
 }: GetStaticPropsContext<Params>) {
   // The `previewData` parameter allows your app to preview
   // drafts from the Page Builder.
   const client = createClient({ previewData });
 
-  const page = await client.getByUID("page", params!.uid, { lang: locale });
-  const locales = await getLocales(page, client)
+  const page = await client.getByUID("page", params!.uid);
+  // const locales = await getLocales(page, client)
   return {
-    props: { page , locales},
+    props: { page},
     revalidate: 60,
   };
 }
@@ -55,7 +53,7 @@ export async function getStaticProps({
 export async function getStaticPaths() {
   const client = createClient();
 
-  const pages = await client.getAllByType("page", { lang: '*' }); 
+  const pages = await client.getAllByType("page"); 
 
   return {
     paths: pages.map((page) => {

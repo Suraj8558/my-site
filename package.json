@@ -10,20 +10,32 @@
     "slicemachine": "start-slicemachine"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.7.0",
+    "@popperjs/core": "^2.11.8",
     "@prismicio/client": "^7.4.1",
     "@prismicio/next": "^1.5.0",
     "@prismicio/react": "^2.7.4",
+    "aos": "^3.0.0-beta.6",
+    "bootstrap": "^5.3.3",
+    "dayjs": "^1.11.5",
+    "framer-motion": "^6.5.1",
+    "gray-matter": "^4.0.3",
+    "gsap": "^3.11.1",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-parallax-tilt": "^1.7.44"
   },
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.38",
+    "@types/aos": "^3.0.7",
+    "@types/bootstrap": "^5.2.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
+    "sass": "^1.77.0",
     "slice-machine-ui": "^1.26.0",
     "typescript": "^5"
   }

@@ -14,5 +14,8 @@ module.exports = async () => {
   return {
     reactStrictMode: true,
     swcMinify: true,
+    env:{
+      PRISMIC_MASTER_ACCESS_TOKEN: process.env.PRISMIC_MASTER_ACCESS_TOKEN
+    }
   };
 };

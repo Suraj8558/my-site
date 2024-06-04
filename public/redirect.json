@@ -1,0 +1,17 @@
+[
+  {
+    "source": "/test-1",
+    "destination": "/redirect-test-1",
+    "permanent": true
+  },
+  {
+    "source": "/test-2",
+    "destination": "/redirect-test-2",
+    "permanent": true
+  },
+  {
+    "source": "/home",
+    "destination": "/new-home",
+    "permanent": true
+  }
+]

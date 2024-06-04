@@ -130,6 +130,8 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
+type SettingsDocumentDataSlicesSlice = RedirectionSlice;
+
 /**
  * Content for Settings documents
  */
@@ -178,6 +180,17 @@ interface SettingsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   status_code: prismic.SelectField<"301" | "302", "filled">;
+
+  /**
+   * Slice Zone field in *Settings*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<SettingsDocumentDataSlicesSlice>;
 }
 
 /**
@@ -798,6 +811,92 @@ type HeroSliceVariation = HeroSliceDefault | HeroSliceImageRight;
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
+/**
+ * Primary content in *Redirection → Primary*
+ */
+export interface RedirectionSliceDefaultPrimary {
+  /**
+   * Old Link field in *Redirection → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: redirection.primary.old_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  old_link: prismic.LinkField;
+
+  /**
+   * Old Link optional field in *Redirection → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: redirection.primary.old_link_optional
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  old_link_optional: prismic.KeyTextField;
+
+  /**
+   * New Link field in *Redirection → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: redirection.primary.new_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  new_link: prismic.LinkField;
+
+  /**
+   * New Link optional field in *Redirection → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: redirection.primary.new_link_optional
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  new_link_optional: prismic.KeyTextField;
+
+  /**
+   * Status Code field in *Redirection → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: 301
+   * - **API ID Path**: redirection.primary.status_code
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  status_code: prismic.SelectField<"301" | "302", "filled">;
+}
+
+/**
+ * Default variation for Redirection Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type RedirectionSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<RedirectionSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Redirection*
+ */
+type RedirectionSliceVariation = RedirectionSliceDefault;
+
+/**
+ * Redirection Shared Slice
+ *
+ * - **API ID**: `redirection`
+ * - **Description**: Redirection
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type RedirectionSlice = prismic.SharedSlice<
+  "redirection",
+  RedirectionSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -816,6 +915,7 @@ declare module "@prismicio/client" {
       PageDocumentDataSlicesSlice,
       SettingsDocument,
       SettingsDocumentData,
+      SettingsDocumentDataSlicesSlice,
       AllDocumentTypes,
       AlternateGridSlice,
       AlternateGridSliceDefaultPrimary,
@@ -842,6 +942,10 @@ declare module "@prismicio/client" {
       HeroSliceVariation,
       HeroSliceDefault,
       HeroSliceImageRight,
+      RedirectionSlice,
+      RedirectionSliceDefaultPrimary,
+      RedirectionSliceVariation,
+      RedirectionSliceDefault,
     };
   }
 }

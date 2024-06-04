@@ -7,4 +7,5 @@ export const components = {
   call_to_action: dynamic(() => import("./CallToAction")),
   customer_logos: dynamic(() => import("./CustomerLogos")),
   hero: dynamic(() => import("./Hero")),
+  redirection: dynamic(() => import("./Redirection")),
 };

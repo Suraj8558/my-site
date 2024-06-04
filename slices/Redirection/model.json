@@ -1,0 +1,61 @@
+{
+  "id": "redirection",
+  "type": "SharedSlice",
+  "name": "Redirection",
+  "description": "Redirection",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "old_link": {
+          "type": "Link",
+          "config": {
+            "label": "Old Link",
+            "placeholder": "",
+            "select": null
+          }
+        },
+        "old_link_optional": {
+          "type": "Text",
+          "config": {
+            "label": "Old Link optional",
+            "placeholder": ""
+          }
+        },
+        "new_link": {
+          "type": "Link",
+          "config": {
+            "label": "New Link",
+            "placeholder": "",
+            "select": null
+          }
+        },
+        "new_link_optional": {
+          "type": "Text",
+          "config": {
+            "label": "New Link optional",
+            "placeholder": ""
+          }
+        },
+        "status_code": {
+          "type": "Select",
+          "config": {
+            "label": "Status Code",
+            "placeholder": "",
+            "options": [
+              "301",
+              "302"
+            ],
+            "default_value": "301"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

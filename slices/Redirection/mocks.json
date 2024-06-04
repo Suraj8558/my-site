@@ -1,0 +1,38 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"old_link": {
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://slicemachine.dev"
+				}
+			},
+			"old_link_optional": {
+				"__TYPE__": "FieldContent",
+				"value": "drove",
+				"type": "Text"
+			},
+			"new_link": {
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://prismic.io"
+				}
+			},
+			"new_link_optional": {
+				"__TYPE__": "FieldContent",
+				"value": "reach",
+				"type": "Text"
+			},
+			"status_code": {
+				"__TYPE__": "FieldContent",
+				"value": "301",
+				"type": "Select"
+			}
+		},
+		"items": []
+	}
+]

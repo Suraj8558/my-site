@@ -39,6 +39,17 @@
           "options": ["301", "302"],
           "default_value": "301"
         }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "redirection": {
+              "type": "SharedSlice"
+            }
+          }
+        }
       }
     }
   }

@@ -15,7 +15,7 @@ const Logo = ({ variant = 'one', fillTextColor = '#00004B' }) => {
                 fontSize="20"
                 fontWeight="bold"
                 fill={fillTextColor}>
-                <tspan x="75" y="24">Suraj</tspan>
+                {/* <tspan x="75" y="24">Suraj</tspan> */}
                 <tspan
                   x="175.14" y="24.5001221"
                   fontFamily="DMSans-Regular, DM Sans"

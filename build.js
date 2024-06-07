@@ -5,7 +5,6 @@ const PrismicHelper = require('@prismicio/helpers');
 
 const repoName = 'my-sites'; // Fill in your repository name.
 const accessToken = process.env.PRISMIC_MASTER_ACCESS_TOKEN// If your repository is private, add an access token.
-      console.log("accessToken", accessToken);
 const client = prismic.createClient(repoName, {
   fetch,
   accessToken,

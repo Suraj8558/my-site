@@ -1,0 +1,43 @@
+{
+  "format": "custom",
+  "id": "navigation",
+  "label": "Navigation",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "menus": {
+        "type": "Group",
+        "config": {
+          "label": "Menus",
+          "repeat": true,
+          "fields": {
+            "menu_lablel": {
+              "type": "Text",
+              "config": {
+                "label": "Menu Lablel",
+                "placeholder": ""
+              }
+            },
+            "menu_link": {
+              "type": "Link",
+              "config": {
+                "label": "Menu Link",
+                "placeholder": "",
+                "select": null
+              }
+            },
+            "child_menu": {
+              "type": "Link",
+              "config": {
+                "label": "Child Menu",
+                "select": "document",
+                "customtypes": ["menu"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

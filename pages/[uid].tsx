@@ -13,7 +13,6 @@ export default function Page({
   page,
   locales 
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-
   return (
     <>
       <Head>

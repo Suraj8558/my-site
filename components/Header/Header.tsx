@@ -5,8 +5,9 @@ import Logo from '../icons/Logo';
 import MobileMenu from './MobileMenu';
 import HeaderSearch from './HeaderSearch';
 
-const Header = () => {
-
+const Header = ({data}: any) => {
+  // console.log("data", data.menus);
+  
 
   const toggleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -69,7 +70,8 @@ const Header = () => {
               <div className="col-lg-3 col-md-6 col-sm-6 col-8 header-left">
                 <div className="logo">
                   <Link href="/">
-                      <Logo />
+                      {/* <Logo /> */}
+                      <h5>Frontend Developer</h5>
                     </Link>
                 </div>
               </div>
@@ -80,7 +82,7 @@ const Header = () => {
                 >
                  
                       <nav className="mainmenu-nav d-none d-lg-block">
-                        <MainMenu />
+                        <MainMenu MenuData={data?.menus} />
                       </nav>
 
                   <div className="axil-header-extra d-flex align-items-center">

@@ -68,7 +68,7 @@ const Banner = () => {
 											alt="Keystoke Images"
 										/>
 									</div>
-									<div className="shape-group">
+									{/* <div className="shape-group">
 										<div className="shape shape-1 paralax--1">
 											<i className="icon icon-shape-05" />
 										</div>
@@ -78,7 +78,7 @@ const Banner = () => {
 										<div className="shape shape-3 paralax--3">
 											<i className="icon icon-shape-04" />
 										</div>
-									</div>
+									</div> */}
 								</div>
 							</Tilt>
 						</div>

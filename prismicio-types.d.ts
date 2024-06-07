@@ -69,6 +69,137 @@ interface HomeDocumentData {
 export type HomeDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
 
+/**
+ * Item in *Menu → Menus*
+ */
+export interface MenuDocumentDataMenusItem {
+  /**
+   * Menu Label field in *Menu → Menus*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: menu.menus[].menu_label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  menu_label: prismic.KeyTextField;
+
+  /**
+   * Menu Link field in *Menu → Menus*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: menu.menus[].menu_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  menu_link: prismic.LinkField;
+}
+
+/**
+ * Content for Menu documents
+ */
+interface MenuDocumentData {
+  /**
+   * Menu Title field in *Menu*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: menu.menu_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  menu_title: prismic.KeyTextField;
+
+  /**
+   * Menus field in *Menu*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: menu.menus[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  menus: prismic.GroupField<Simplify<MenuDocumentDataMenusItem>>;
+}
+
+/**
+ * Menu document from Prismic
+ *
+ * - **API ID**: `menu`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type MenuDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<MenuDocumentData>, "menu", Lang>;
+
+/**
+ * Item in *Navigation → Menus*
+ */
+export interface NavigationDocumentDataMenusItem {
+  /**
+   * Menu Lablel field in *Navigation → Menus*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.menus[].menu_lablel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  menu_lablel: prismic.KeyTextField;
+
+  /**
+   * Menu Link field in *Navigation → Menus*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.menus[].menu_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  menu_link: prismic.LinkField;
+
+  /**
+   * Child Menu field in *Navigation → Menus*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.menus[].child_menu
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  child_menu: prismic.ContentRelationshipField<"menu">;
+}
+
+/**
+ * Content for Navigation documents
+ */
+interface NavigationDocumentData {
+  /**
+   * Menus field in *Navigation*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.menus[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  menus: prismic.GroupField<Simplify<NavigationDocumentDataMenusItem>>;
+}
+
+/**
+ * Navigation document from Prismic
+ *
+ * - **API ID**: `navigation`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NavigationDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<NavigationDocumentData>,
+    "navigation",
+    Lang
+  >;
+
 type PageDocumentDataSlicesSlice = CallToActionSlice;
 
 /**
@@ -209,7 +340,12 @@ export type SettingsDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomeDocument | PageDocument | SettingsDocument;
+export type AllDocumentTypes =
+  | HomeDocument
+  | MenuDocument
+  | NavigationDocument
+  | PageDocument
+  | SettingsDocument;
 
 /**
  * Primary content in *AlternateGrid → Primary*
@@ -812,6 +948,36 @@ type HeroSliceVariation = HeroSliceDefault | HeroSliceImageRight;
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
 /**
+ * Default variation for MenuList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MenuListSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *MenuList*
+ */
+type MenuListSliceVariation = MenuListSliceDefault;
+
+/**
+ * MenuList Shared Slice
+ *
+ * - **API ID**: `menu_list`
+ * - **Description**: MenuList
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MenuListSlice = prismic.SharedSlice<
+  "menu_list",
+  MenuListSliceVariation
+>;
+
+/**
  * Primary content in *Redirection → Primary*
  */
 export interface RedirectionSliceDefaultPrimary {
@@ -910,6 +1076,12 @@ declare module "@prismicio/client" {
       HomeDocument,
       HomeDocumentData,
       HomeDocumentDataSlicesSlice,
+      MenuDocument,
+      MenuDocumentData,
+      MenuDocumentDataMenusItem,
+      NavigationDocument,
+      NavigationDocumentData,
+      NavigationDocumentDataMenusItem,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
@@ -942,6 +1114,9 @@ declare module "@prismicio/client" {
       HeroSliceVariation,
       HeroSliceDefault,
       HeroSliceImageRight,
+      MenuListSlice,
+      MenuListSliceVariation,
+      MenuListSliceDefault,
       RedirectionSlice,
       RedirectionSliceDefaultPrimary,
       RedirectionSliceVariation,

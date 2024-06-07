@@ -14,9 +14,10 @@ import { AppProps } from 'next/dist/shared/lib/router/router';
 
 export default function Page({
   page,
+  header,
   // locales
 }: AppProps) {
- 
+  
   return (
     <>
       {/* <Head>
@@ -32,8 +33,8 @@ export default function Page({
           </li>
         ))}
       </ul> */}
-      <Layout showFooter={true}> 
-        <Banner />
+      <Layout showFooter={true} header={header}> 
+        {/* <Banner /> */}
         <SliceZone slices={page.data.slices} components={components} />
       </Layout>
     </>
@@ -44,11 +45,16 @@ export async function getStaticProps({ previewData, locale }: GetStaticPropsCont
   const client = createClient({ previewData });
   
   // The query fetches the page's data based on the current URL.
-  const page = await client.getSingle("home");  
+  const page = await client.getSingle("home"); 
+  const header =  await client.getSingle("navigation", { fetchLinks: 'menu.menus' }); 
+
   // const locales = await getLocales(page, client)
 
   return {  
-    props: { page},
+    props: {
+      page,
+      header : header?.data,
+    },
     revalidate: 60,
   };
 }

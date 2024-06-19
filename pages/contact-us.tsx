@@ -6,7 +6,7 @@ interface FormData {
   message: string;
 }
 
-export default function Form() {
+export default function Form(): any{
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -25,6 +25,8 @@ export default function Form() {
 
     const form = e.target as HTMLFormElement;
     const formDataToSend = new FormData(form);
+    console.log("formDataToSend", formDataToSend);
+    
 
     try {
       const response = await fetch('/', {
@@ -34,6 +36,7 @@ export default function Form() {
       });
 
       if (response.ok) {
+        alert('submitted')
         setSubmitted(true);
       } else {
         setError(true);

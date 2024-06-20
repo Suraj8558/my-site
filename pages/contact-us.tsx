@@ -3,14 +3,12 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 interface FormData {
   name: string;
   email: string;
-  message: string;
 }
 
-export default function Form(): any{
+export default function Form() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
-    email: '',
-    message: ''
+    email: ''
   });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
@@ -23,11 +21,16 @@ export default function Form(): any{
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const form = e.target as HTMLFormElement;
+    const form = e.currentTarget;
     const formDataToSend = new FormData(form);
+
+    // Debug: Log the formDataToSend entries
+    // for (let [key, value] of formDataToSend?.entries()) {
+    //   console.log(`${key}: ${value}`);
+    // }
+
     console.log("formDataToSend", formDataToSend);
     
-
     try {
       const response = await fetch('/', {
         method: 'POST',
@@ -36,7 +39,6 @@ export default function Form(): any{
       });
 
       if (response.ok) {
-        alert('submitted')
         setSubmitted(true);
       } else {
         setError(true);
@@ -52,6 +54,7 @@ export default function Form(): any{
       method="POST"
       data-netlify="true"
       netlify-honeypot="bot-field"
+      data-netlify-recaptcha="true"
       onSubmit={handleSubmit}
     >
       <input type="hidden" name="form-name" value="contact" />
@@ -64,10 +67,12 @@ export default function Form(): any{
       <p>
         <label>Email: <input type="email" name="email" onChange={handleChange} required /></label>
       </p>
-
+      <div data-netlify-recaptcha="true"></div>
       <p>
         <button type="submit">Send</button>
       </p>
+      {submitted && <p>Form submitted successfully!</p>}
+      {error && <p>There was an error submitting the form.</p>}
     </form>
   );
 }

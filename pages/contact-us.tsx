@@ -54,8 +54,9 @@ export default function Form() {
       method="POST"
       data-netlify="true"
       netlify-honeypot="bot-field"
-      data-netlify-recaptcha="true"
+      // data-netlify-recaptcha="true"
       onSubmit={handleSubmit}
+      id="contact"
     >
       <input type="hidden" name="form-name" value="contact" />
       <p className="hidden">
@@ -67,7 +68,7 @@ export default function Form() {
       <p>
         <label>Email: <input type="email" name="email" onChange={handleChange} required /></label>
       </p>
-      <div data-netlify-recaptcha="true"></div>
+      {/* <div data-netlify-recaptcha="true"></div> */}
       <p>
         <button type="submit">Send</button>
       </p>

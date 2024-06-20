@@ -64,9 +64,7 @@ export default function Form(): any{
       <p>
         <label>Email: <input type="email" name="email" onChange={handleChange} required /></label>
       </p>
-      <p>
-        <label>Message: <textarea name="message" onChange={handleChange} required></textarea></label>
-      </p>
+
       <p>
         <button type="submit">Send</button>
       </p>

@@ -1,18 +1,29 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import { isFilled, asLink } from "@prismicio/client";
+import { isFilled, asLink,  } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
-import { PrismicNextLink } from '@prismicio/next'
-
+import { PrismicNextLink,  } from '@prismicio/next'
+import { getLocales } from "@/lib/getLocales"
+import Link from "next/link";
 import { components } from "@/slices";
 import { createClient } from "@/prismicio";
-type Params = { uid: string };
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+type Params = { uid: string, locales: any };
 
 export default function Page({
   page,
-  // locales 
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+  locales
+}: any) {
+  const router = useRouter();
+  console.log("localeinpage", locales);
 
+  const handleClick = (url : any) => {
+    console.log("url", url);
+    
+    router.push(url);
+  };
   return (
     <>
       <Head>
@@ -22,30 +33,43 @@ export default function Page({
         ) : null}
       </Head>
       {/* <ul>
-        {locales.map((locale) => (
+        {locales.map((locale: any) => (
           <li key={locale.id}>
-            <PrismicNextLink href={locale.url}>{locale.lang_name}</PrismicNextLink>
+            <a onClick={() => handleClick(locale.url)}>
+              {locale.lang_name}
+            </a>
           </li>
         ))}
-    </ul> */}
-      <SliceZone slices={page.data.slices} components={components} />
+      </ul> */}
+      <ul>
+        {locales.map((locale: any) => (
+          <li key={locale.id}>
+            <PrismicNextLink href={locale.url}>
+              
+              {locale.lang_name}
+            </PrismicNextLink> 
+
+          </li>
+        ))}
+      </ul>
+      <SliceZone slices={page?.data?.slices} components={components} />
     </>
   );
 }
 
 export async function getStaticProps({
   params,
-  // locale,
+  locale,
   previewData,
 }: GetStaticPropsContext<Params>) {
   // The `previewData` parameter allows your app to preview
   // drafts from the Page Builder.
   const client = createClient({ previewData });
 
-  const page = await client.getByUID("page", params!.uid);
-  // const locales = await getLocales(page, client)
+  const page = await client?.getByUID("page", params!.uid, { lang: locale });
+  const locales = await getLocales(page, client)
   return {
-    props: { page},
+    props: { page, locales },
     revalidate: 60,
   };
 }
@@ -53,7 +77,7 @@ export async function getStaticProps({
 export async function getStaticPaths() {
   const client = createClient();
 
-  const pages = await client.getAllByType("page"); 
+  const pages = await client.getAllByType("page", { lang: '*' }); 
 
   return {
     paths: pages.map((page) => {

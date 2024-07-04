@@ -7,8 +7,9 @@ import { getLocales } from "@/lib/getLocales"
 import Link from "next/link";
 import { components } from "@/slices";
 import { createClient } from "@/prismicio";
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import Layout from "@/components/layouts/Layout";
 
 type Params = { uid: string, locales: any };
 
@@ -16,14 +17,7 @@ export default function Page({
   page,
   locales
 }: any) {
-  const router = useRouter();
-  console.log("localeinpage", locales);
 
-  const handleClick = (url : any) => {
-    console.log("url", url);
-    
-    router.push(url);
-  };
   return (
     <>
       <Head>
@@ -32,27 +26,9 @@ export default function Page({
           <meta name="description" content={page.data.meta_description} />
         ) : null}
       </Head>
-      {/* <ul>
-        {locales.map((locale: any) => (
-          <li key={locale.id}>
-            <a onClick={() => handleClick(locale.url)}>
-              {locale.lang_name}
-            </a>
-          </li>
-        ))}
-      </ul> */}
-      <ul>
-        {locales.map((locale: any) => (
-          <li key={locale.id}>
-            <PrismicNextLink href={locale.url}>
-              
-              {locale.lang_name}
-            </PrismicNextLink> 
-
-          </li>
-        ))}
-      </ul>
-      <SliceZone slices={page?.data?.slices} components={components} />
+      <Layout locales={locales}>
+        <SliceZone slices={page?.data?.slices} components={components} />
+      </Layout>
     </>
   );
 }

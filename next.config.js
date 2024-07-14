@@ -21,8 +21,7 @@ module.exports = async () => {
   });
 
   const repository = await client.getRepository();
-  const locales = repository.languages.map((lang) => lang.id);
-  console.log("locales", locales);  
+  const locales = repository.languages.map((lang) => lang.id); 
 
   return {
     reactStrictMode: true,

@@ -1,10 +1,11 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { PrismicNextLink } from '@prismicio/next'
+import { useRouter } from "next/router";
 
 import Head from "next/head";
 import { isFilled } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
-
+import { getLocales } from "@/lib/getLocales";
 import { components } from "@/slices";
 import { createClient } from "@/prismicio";
 import  Layout from '../components/layouts/Layout';
@@ -14,9 +15,9 @@ import { AppProps } from 'next/dist/shared/lib/router/router';
 
 export default function Page({
   page,
-  // locales
+  locales
 }: AppProps) {
- 
+  const router = useRouter();
   return (
     <>
       {/* <Head>
@@ -25,14 +26,7 @@ export default function Page({
           <meta name="description" content={page.data.meta_description} />
         ) : null}
       </Head> */}
-      {/* <ul>
-        {locales.map((locale) => (
-          <li key={locale.id}>
-            <PrismicNextLink href={locale.url}>{locale.lang_name}</PrismicNextLink>
-          </li>
-        ))}
-      </ul> */}
-      <Layout showFooter={true}> 
+      <Layout showFooter={true} locales={locales}>
         <Banner />
         <SliceZone slices={page.data.slices} components={components} />
       </Layout>
@@ -42,13 +36,13 @@ export default function Page({
 
 export async function getStaticProps({ previewData, locale }: GetStaticPropsContext) {
   const client = createClient({ previewData });
-  
-  // The query fetches the page's data based on the current URL.
-  const page = await client.getSingle("home");  
-  // const locales = await getLocales(page, client)
 
-  return {  
-    props: { page},
+  // The query fetches the page's data based on the current URL.
+  const page = await client.getSingle("home", { lang: locale });
+  const locales = await getLocales(page, client);
+
+  return {
+    props: { page, locales },
     revalidate: 60,
   };
 }

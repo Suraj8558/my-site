@@ -2,17 +2,19 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { isFilled, asLink } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
-import { PrismicNextLink } from '@prismicio/next'
-
+import { PrismicNextLink } from "@prismicio/next";
+import { getLocales } from "@/lib/getLocales";
+import Link from "next/link";
 import { components } from "@/slices";
 import { createClient } from "@/prismicio";
-type Params = { uid: string };
+import { useEffect, useState } from "react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import Layout from "@/components/layouts/Layout";
+import { notFound } from "next/navigation";
 
-export default function Page({
-  page,
-  // locales 
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+type Params = { uid: string; locales: any };
 
+export default function Page({ page, locales }: any) {
   return (
     <>
       <Head>
@@ -21,44 +23,46 @@ export default function Page({
           <meta name="description" content={page.data.meta_description} />
         ) : null}
       </Head>
-      {/* <ul>
-        {locales.map((locale) => (
-          <li key={locale.id}>
-            <PrismicNextLink href={locale.url}>{locale.lang_name}</PrismicNextLink>
-          </li>
-        ))}
-    </ul> */}
-      <SliceZone slices={page.data.slices} components={components} />
+      <Layout locales={locales}>
+        <SliceZone slices={page?.data?.slices} components={components} />
+      </Layout>
     </>
   );
 }
 
 export async function getStaticProps({
   params,
-  // locale,
+  locale,
   previewData,
 }: GetStaticPropsContext<Params>) {
   // The `previewData` parameter allows your app to preview
   // drafts from the Page Builder.
   const client = createClient({ previewData });
 
-  const page = await client.getByUID("page", params!.uid);
-  // const locales = await getLocales(page, client)
-  return {
-    props: { page},
-    revalidate: 60,
-  };
+  try {
+    const page = await client?.getByUID("page", params!.uid, { lang: locale });
+    const locales = await getLocales(page, client);
+    
+    return {
+      props: { page, locales },
+      revalidate: 60,
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 }
 
 export async function getStaticPaths() {
   const client = createClient();
 
-  const pages = await client.getAllByType("page"); 
+  const pages = await client.getAllByType("page", { lang: "*" });
 
   return {
     paths: pages.map((page) => {
       return asLink(page);
     }),
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 }

@@ -8,6 +8,7 @@ import config from "./slicemachine.config.json";
 export const repositoryName =
   process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || config.repositoryName;
 
+export const Prismic_Access_token = process.env.PRISMIC_MASTER_ACCESS_TOKEN
 /**
  * A list of Route Resolver objects that define how a document's `url` field is resolved.
  *
@@ -35,6 +36,7 @@ const routes: prismic.ClientConfig["routes"] = [
 export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
   const client = prismic.createClient(repositoryName, {
     routes,
+    accessToken: Prismic_Access_token,
     ...config,
   });
 

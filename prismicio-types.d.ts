@@ -4,11 +4,7 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type HomeDocumentDataSlicesSlice =
-  | CustomerLogosSlice
-  | CallToActionSlice
-  | HeroSlice
-  | AlternateGridSlice;
+type HomeDocumentDataSlicesSlice = CallToActionSlice | HeroSlice;
 
 /**
  * Content for Home documents
@@ -68,6 +64,40 @@ interface HomeDocumentData {
  */
 export type HomeDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
+
+type NavigationDocumentDataSlicesSlice = MenuSlice;
+
+/**
+ * Content for Navigation documents
+ */
+interface NavigationDocumentData {
+  /**
+   * Slice Zone field in *Navigation*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<NavigationDocumentDataSlicesSlice>;
+}
+
+/**
+ * Navigation document from Prismic
+ *
+ * - **API ID**: `navigation`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NavigationDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<NavigationDocumentData>,
+    "navigation",
+    Lang
+  >;
 
 type PageDocumentDataSlicesSlice = HeroSlice | CallToActionSlice;
 
@@ -196,7 +226,11 @@ export type SettingsDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomeDocument | PageDocument | SettingsDocument;
+export type AllDocumentTypes =
+  | HomeDocument
+  | NavigationDocument
+  | PageDocument
+  | SettingsDocument;
 
 /**
  * Primary content in *CallToAction → Primary*
@@ -523,6 +557,73 @@ type HeroSliceVariation = HeroSliceDefault | HeroSliceImageRight;
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
+/**
+ * Primary content in *Menu → Primary*
+ */
+export interface MenuSliceDefaultPrimary {
+  /**
+   * Menu field in *Menu → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: menu.primary.Menu
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  Menu: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *Menu → Items*
+ */
+export interface MenuSliceDefaultItem {
+  /**
+   * Menu Label field in *Menu → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: menu.items[].menu_label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  menu_label: prismic.KeyTextField;
+
+  /**
+   * Menu Link field in *Menu → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: menu.items[].menu_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  menu_link: prismic.LinkField;
+}
+
+/**
+ * Default variation for Menu Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MenuSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<MenuSliceDefaultPrimary>,
+  Simplify<MenuSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *Menu*
+ */
+type MenuSliceVariation = MenuSliceDefault;
+
+/**
+ * Menu Shared Slice
+ *
+ * - **API ID**: `menu`
+ * - **Description**: Menu
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MenuSlice = prismic.SharedSlice<"menu", MenuSliceVariation>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -536,6 +637,9 @@ declare module "@prismicio/client" {
       HomeDocument,
       HomeDocumentData,
       HomeDocumentDataSlicesSlice,
+      NavigationDocument,
+      NavigationDocumentData,
+      NavigationDocumentDataSlicesSlice,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
@@ -554,6 +658,11 @@ declare module "@prismicio/client" {
       HeroSliceVariation,
       HeroSliceDefault,
       HeroSliceImageRight,
+      MenuSlice,
+      MenuSliceDefaultPrimary,
+      MenuSliceDefaultItem,
+      MenuSliceVariation,
+      MenuSliceDefault,
     };
   }
 }
